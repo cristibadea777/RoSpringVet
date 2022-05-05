@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<title>Bun venit la RoSpringVet</title>
+
+
+</head>
+
+<body>
+
+	<!-- th replace pt navbar -->
+	<div th:replace="fragments/topnavbar :: navbar2">
+		<!-- 2 e navbar cu logout-->
+	</div>
+
+	<hr>
+	<br>
+
+	<h1 th:text=" 'Bine ai venit,  ' + ${stapan.firstname}"> </h1>
+
+
+	<div class="container my-2">
+		<h1 th:text=" 'Profil'" />
+		</h1>
+		<hr>
+
+	
+		<div class="col-md-5">
+			<strong>Informatii</strong><br>
+			<div class="table-responsive">
+				<table class="table table-user-information">
+					<tbody>
+						<tr>
+							<td>
+								<strong>
+									Nr telefon
+								</strong>
+							</td>
+							<td class="text-primary" th:text="${stapan.nrtelefon}">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									Email
+								</strong>
+							</td>
+							<td class="text-primary" th:text="${stapan.email}">
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<strong th:text="|Număr animale: '${stapan.animale.size()}' |"></strong>
+							</td>
+							<td>
+								<a th:href="@{/veziAnimaleleTale}" class="btn btn-primary">Vezi animale</a>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<strong th:text="|Număr vizite: '${stapan.vizite.size()}' |"></strong>
+							</td>
+							<td>
+								<a th:href="@{/euVizite}" class="btn btn-primary">Vezi vizite</a>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<strong th:text="|Număr programări confirmate: '${programari_confirmate}' |"></strong>
+							</td>
+							<td>
+								<a th:href="@{/euProgramari}" class="btn btn-primary">Vezi programări confirmate</a>
+								<div  th:if="${param.keySet().contains('0prog')}">
+									<p class="text-danger">Nu ai programări.</p>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<strong th:text="|Număr programări neconfirmate: '${programari_neconfirmate}' |"></strong>
+							</td>
+							<td>
+								<a th:href="@{/euProgramariNeconfirmate}" class="btn btn-primary">Vezi programări neconfirmate</a>
+								<div  th:if="${param.keySet().contains('0progneconf')}">
+										<p class="text-danger">Nu ai programări.</p>
+								</div>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</body>
+
+
+</html>

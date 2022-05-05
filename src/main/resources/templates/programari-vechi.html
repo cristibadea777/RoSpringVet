@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>RoSpringVet</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Cabinet veterinar</h1>
+		<hr>
+		<h2>Șterge programările mai vechi de </h2>
+
+		<hr />
+
+		<form action="#" th:action="@{/stergeProgramariVechi}" th:object="${programare}" method="POST">
+
+			<!-- de pus din ceva date-pick-->
+
+
+			<div class="form-group mb-4 col-4">
+
+				<h3>Data și ora</h3>
+
+				<br />
+
+				<div class='input-group date' id='datetimepicker1'>
+					<input type="text" th:field="*{date}" placeholder="Data și ora" class="form-control" />
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+
+				<br />
+				
+				<button type="submit" class="btn btn-danger btn-lg mb-3"> Șterge </button>
+
+
+			</div>
+
+
+
+			<!-- camppuri de input ascunse	-->
+
+			<input th:value="${nume_stapan}" name="numestapan" type="hidden" />
+			<input th:value="${nume_animal}" name="numeanimal" type="hidden" />
+			<input th:value="${id_stapan}" name="stapanId" type="hidden" />
+			<input th:value="${id_animal}" name="animalId" type="hidden" />
+
+
+
+
+		</form>
+
+		<hr>
+
+		<a th:href="@{/stapani}">Inapoi la stapani</a>
+		<a th:href="@{/stapani}">Inapoi la animale</a>
+	</div>
+
+	<script type="text/javascript">
+		$(function () {
+			$('#datetimepicker1').datetimepicker();
+		});
+	</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+

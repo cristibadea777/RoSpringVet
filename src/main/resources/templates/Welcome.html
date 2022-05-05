@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<title>Bun venit la RoSpringVet</title>
+
+
+</head>
+
+<body>
+
+	<!-- th replace pt navbar -->
+
+	<div th:replace="fragments/topnavbar :: navbar1">
+	</div>
+
+	<div class="container my-2">
+
+		<h1><strong>Bun venit !</strong></h1>
+		<br><br>
+		<div th:if="!${param.success}">
+			<h3>Pentru a putea folosi aplicatia, autentifica-te sau creeaza un utilizator nou.</h3>
+		</div>
+
+		<br>
+
+		<!-- success message -->
+		<div th:if="${param.success}">
+			<div class="alert alert-info">
+				<h3>Felicitari, te-ai inregistrat! Acum autentifica-te.</h3>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-md-5 col-xs-6">
+
+				<form th:action="@{/acasa}"  method="post">
+					<div class="form-group">
+						<label for="username"> Email </label>:
+						<input type="text" class="form-control" id="username" name="username"
+							placeholder="Introdu Email " autofocus="autofocus">
+					</div>
+
+					<div class="form-group">
+						<label for="password">Parola</label>:
+						<input type="password" id="password" name="password" class="form-control"
+							placeholder="Introdu Parola" />
+					</div>
+
+					<div class="form-group">
+						<input type="submit" name="login-submit" id="login-submit" class="btn btn-primary btn-lg mb-3" value="Autentificare" />
+						<a th:href="@{/acasa/formInregistrareStapan}" class="btn btn-primary btn-lg mb-3">Inregistrare</a>
+					</div>
+				</form>
+
+				&nbsp;&nbsp;
+
+				<!-- error message -->
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Email sau parola gresita</div>
+				</div>
+
+				<!-- logout message -->
+				<div th:if="${param.logout}">
+					<div class="alert alert-info">Felicitari, nu mai esti autentificat.</div>
+				</div>
+
+			</div>
+			<div class="col-md-5 col-xs-6">
+				<div class="row">
+					<div class="col-md-12">
+						<img class="img-responsive" src="../static/images/photo.png" th:src="@{images/angora.png}" />
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<div allign="center">
+		<a th:href="@{stapani}">Stapani</a>
+		<a th:href="@{animale}">Animale</a>
+		<a th:href="@{programari}">Programari</a>
+		<a th:href="@{vizite}">Vizite</a>
+	</div>
+
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
+</html>

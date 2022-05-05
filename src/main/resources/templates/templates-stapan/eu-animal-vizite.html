@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>RoSpringVet</title>
+
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+		crossorigin="anonymous">
+	
+	<!-- Pentru glyphicon-uri -->
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+		integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+		crossorigin="anonymous">
+	
+	
+	<!-- JS ca sa mearga modal-ul cu bootstrap 4 -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+	<!-- Ca sa mearga DateTimePicker-ul -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+	
+</head>
+
+<body>
+
+	<!-- th replace pt navbar angajati -->
+	<div th:replace="fragments/topnavbar :: navbar2">
+	</div>
+	
+	<div class="container my-2">
+		<br/>
+		<div class="row">
+			<h1 th:text="'Lista cu vizitele pentru animalul: ' + ${animal.nume}"></h1>
+			&nbsp; &nbsp;
+			<img class="img-responsive" src="../static/images/photo.png" 
+				th:src="@{/images/{img}(img=${animal.imagine != null ? animal.imagine : 'animal_default.png'} ) }" 
+				width="1000"; style="height:90px; max-width:90px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+		</div>
+				
+		<a th:href="@{/euProfilAnimal/{id}(id=${animal.animalId})}" class="btn btn-info btn-lg mb-3">Detalii animal <i class="fas fa-search"></i></a>
+		&nbsp;
+		
+		<table border="1" class = "table table-striped table-responsive-md table-hover">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/euViziteAnimal/' + ${animal.animalId} + '/page/' +  ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Data și ora</a>
+					</th>
+					<th>
+						 Acțiuni 
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="vizita : ${listaVizite}">
+					<td th:text="${vizita.date}"></td>
+					<td> 
+						<!-- Buton detalii vizita. Butonul va face vizibil modalul de vizualizare detalii a unei vizite. -->
+						<button type="button" class="btn btn-secondary"data-toggle="modal" th:attr="data-target='#modalDetaliiVizita'+*{vizita.vizitaId}">Detalii vizită <i class="fas fa-info-circle"></i> </button>
+					</td>
+					
+					
+						<!-- Modal detalii vizită-->
+						<div class="modal" th:id="*{'modalDetaliiVizita'+{vizita.vizitaId}}"
+							tabindex="-1" role="dialog" aria-labelledby="#modalVizitaNouaAnimal"
+							aria-hidden="true">	
+	
+							<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+								<div class="modal-content" >
+	
+									<div class="modal-header">
+										<h3 class="modal-title w-100 text-center" id="titlu">Detalii vizită</h3>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&cross;</span>
+										</button>
+									</div>
+
+									<div class="modal-body">
+										<div class="row">
+
+											<div  class="col-md-5 col-xs-7">
+												<div class="row">
+													&nbsp;&nbsp;&nbsp;<h5>Stăpânul: &nbsp;</h5>
+													<h5 style="color: cyan;" th:text="${vizita.numestapan}"></h5>
+												</div>
+												<div class="row">
+													&nbsp;&nbsp;&nbsp;<h5>Animalul: &nbsp;</h5>
+													<h5 style="color: cyan;" th:text="${vizita.numeanimal}"></h5>
+												</div>
+											</div>
+											
+											<div  class="col-md-1 col-xs-7">
+											</div>
+											
+											<div  class="col-md-5 col-xs-7">
+												<img class="img-responsive" src="../static/images/photo.png" th:src="@{/images/{img}(img=${vizita.animalId.imagine != null ? vizita.animalId.imagine : 'animal_default.png' } ) }" width="1000"; style="height:77px; max-width:77px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+											</div>
+											
+											<!--VIZITA	-->
+											<div class="col-md-5 col-xs-7">
+												<h4>Motivul vizitei</h4>
+												<strong style="color: cyan;" th:text="*{vizita.motiv}"></strong> 													
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>
+											
+											<div class="col-md-5 col-xs-6">
+												<h4>Data și ora vizitei</h4>
+												<strong style="color: cyan;" th:text="*{vizita.date}"></strong> 
+											</div>
+									
+											<!-- DIAGNOSTIC	-->
+											<div class="col-md-5 col-xs-7">			
+												<h4>Diagnostic</h4>
+												<textarea type="text" style="color: cyan;" th:text="*{vizita.diagnosticId.diagnostic}" class="form-control " rows="5"></textarea>
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>		
+																						
+											<!-- TRATAMENT	-->				
+											<div class="col-md-5 col-xs-7">							
+												<h4>Metodă tratament</h4>
+												<textarea type="text" style="color: cyan;" th:text="*{vizita.tratamentId.metodatratament}" class="form-control " rows="5"></textarea>
+											</div>
+												
+											<!-- ANGAJAT	-->
+											<div class="col-md-5 col-xs-7">
+												<h4>Veterinar</h4>
+												<strong style="color: cyan;" th:text="*{vizita.numeangajat}"></strong>
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>
+												
+											<div class="col-md-5 col-xs-7">
+												<h4>Dată începere tratament</h4>
+												<strong style="color: cyan;" th:text="*{vizita.tratamentId.datainceput}"></strong>
+											</div>
+												
+											<div class="col-md-6 col-xs-7">
+											</div>
+																								
+											<div class="col-md-5 col-xs-7">
+												<h4>Dată terminare tratament</h4>
+												<strong style="color: cyan;" th:text="*{vizita.tratamentId.datasfarsit}"></strong>
+											</div>	
+												
+											<div class="col-md-6 col-xs-7">
+												<br>
+											</div>
+																													
+										</div>
+									</div>
+									
+									<!-- modal footer -->
+									<div style="text-align: center" class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Închide</button>
+									</div>
+							  </div>
+						</div>
+					</div>
+					
+					<!-- Script JavaScript pentru a schimba paginile -->
+					
+					<script th:inline="javascript">
+				        //functii navigare catre pagina inainte, inapoi, prima, ultima nr paginii intre 
+				        
+				        var idAnimal = /*[[${animal.animalId}]]*/ 0; 
+				        
+				        function paginaInainte(){ 
+				            var currentPage = /*[[${currentPage+1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				            window.location.href='/euViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+				        function paginaInapoi(){
+				            var currentPage = /*[[${currentPage-1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				             
+				            window.location.href='/euViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+						function paginaPrima(){ 
+				            var currentPage = 1;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/euViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+							
+						}
+						
+						function paginaUltima(){ 
+				            var currentPage = /*[[${totalPages}]]*/ 0;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/euViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+						}
+				        
+					</script>
+					
+					
+				</tr>
+			</tbody>
+		</table>
+
+		<div th:if = "${totalPages > 1}">
+			<div style="display: flex; float:right;">
+				<p>Pagina: [[${currentPage}]]</p>
+			</div>
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages}" th:onclick="paginaPrima();">Prima pagină</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages and currentPage > 1}" th:onclick="paginaInapoi();"><i class="fas fa-arrow-circle-left"></i> Înapoi</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage < totalPages}" th:onclick="paginaInainte()"> Înainte <i class="fas fa-arrow-circle-right"></i> </button>
+
+			<button class="btn btn-secondary" th:onclick="paginaUltima()">Ultima pagină</button>
+		</div>		
+		
+	</div>
+</body>
+
+
+</html>

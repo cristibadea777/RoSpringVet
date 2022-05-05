@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>RoSpringVet</title>
+
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+		crossorigin="anonymous">
+	
+	<!-- Pentru glyphicon-uri -->
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+		integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+		crossorigin="anonymous">
+	
+	
+	<!-- JS ca sa mearga modal-ul cu bootstrap 4 -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+	<!-- Ca sa mearga DateTimePicker-ul -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+	
+</head>
+
+<body>
+
+	<!-- th replace pt navbar angajati -->
+	<div th:replace="fragments/topnavbar :: navbar2">
+	</div>
+
+	<div class="container my-2">
+	<br/>
+	<h2>Lista cu programările tale, NECONFIRMATE: </h2>
+		&nbsp;
+		<table border="1" class = "table table-striped table-responsive-md table-hover">
+			<thead>
+				<tr>
+					<th>
+						Poză
+					</th>
+					<th>
+						<a th:href="@{'/euProgramariNeconfirmate' + '/page/' +  ${currentPage} + '?sortField=numeanimal&sortDir=' + ${reverseSortDir}}">Nume</a>
+					</th>
+					<th>
+						<a th:href="@{'/euProgramariNeconfirmate' + '/page/' +  ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Data și ora</a>
+					</th>
+					<th>
+						<a th:href="@{'/euProgramariNeconfirmate' + '/page/' +  ${currentPage} + '?sortField=motiv&sortDir=' + ${reverseSortDir}}"> Motiv</a>
+					</th>
+					<th>
+						 Acțiuni 
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="programare : ${listaProgramari}">
+					<td>
+						<img class="img-responsive" src="../static/images/photo.png" 
+							th:src="@{/images/{img}(img=${programare.animalId.imagine != null ? programare.animalId.imagine : 'animal_default.png'} ) }" 
+							width="1000"; style="height:70px; max-width:70px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+					</td>
+					<td th:text="${programare.numeanimal}"></td>
+					<td th:text="${#dates.format(programare.date, 'dd MMMM yyyy hh:mm')}"></td>
+					<td th:text="${programare.motiv}"></td>
+					<td> 						
+						<a th:href="@{/euProfilAnimal/{id}(id=${programare.animalId.animalId})}" class="btn btn-secondary">Vezi animal <i class="fas fa-search"></i></a>
+						<!-- Buton sterge programare. Butonul va face vizibil modalul de stergere a unei programari. -->				  
+					    <button type="button" class="btn btn-danger"data-toggle="modal" th:attr="data-target='#modalStergeProgramare'+*{programare.programareId}">Anulează <i class="fas fa-times"></i> </button>
+					</td>
+					
+					<!-- Modal stergere programare -->
+					<div class="modal" th:id="*{'modalStergeProgramare'+{programare.programareId}}" tabindex="-1" role="dialog" aria-labelledby="#modalStergeProgramare" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									
+									<div class="modal-header">
+										<div class="child">
+											<h2 class="modal-title" id="titlu"> Anulează programarea </h2>
+											<h2>&nbsp;</h2>
+											<h4 th:text="|Data: ${#dates.format(programare.date, 'dd MMMM yyyy hh:mm')}|"></h4>
+											<h4 th:text="|Stăpânul:  ${programare.stapanId.firstname}  ${programare.stapanId.lastname}|"></h4>
+											<h4 th:text="|Animalul:  ${programare.animalId.nume}|"></h4>
+										</div>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&cross;</span>
+										</button>
+									</div>
+
+									<div class="modal-body">
+
+									<form action="/stergereProgramare" method="get">
+											<h3>Ești sigur că vrei să anulezi ?</h3>
+											<br>
+											
+											<div class="form-group">
+												<!--ID este hidden -->
+												<input type="text" th:value="*{programare.programareId}"
+													class="form-control" name="programareId" hidden="true">
+											</div>
+									</div>
+
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Închide</button>
+										<button type="submit" class="btn btn-danger">Anulează !</button>
+									</div>
+
+
+									<!-- ~~~ Pentru redirectionare pagina curenta si camp sortat~~~ -->
+									<!--Nr paginii -->
+									<input type="text" th:value="${currentPage}" class="form-control" name="currentPage" hidden="true">
+									<!--Numele campului dupa care se face sortarea -->
+									<input type="text" th:value="${sortField}" class="form-control" name="sortField" hidden="true">
+									<!--Directia sortarii-->
+									<input type="text" th:value="${sortDir}" class="form-control" name="sortDir" hidden="true">
+									<!--Numele vederii-->
+									<input type="text" th:value="${numeView}" class="form-control" name="numeView" hidden="true">
+									<!--Data-->
+									<input type="text" th:value="${data}" class="form-control" name="data" hidden="true">
+									
+									</form>
+								</div>
+							</div>
+						</div>
+				
+					<!-- Script JavaScript pentru a schimba paginile -->
+					
+					<script th:inline="javascript">
+				        //functii navigare catre pagina inainte, inapoi, prima, ultima nr paginii intre 
+				        
+				        var idStapan = /*[[${programare.stapanId.stapanId}]]*/ 0; 
+				        
+				        function paginaInainte(){ 
+				            var currentPage = /*[[${currentPage+1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				            window.location.href='/euProgramariNeconfirmate' + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+				        function paginaInapoi(){
+				            var currentPage = /*[[${currentPage-1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				             
+				            window.location.href='/euProgramariNeconfirmate' + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+						function paginaPrima(){ 
+				            var currentPage = 1;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/euProgramariNeconfirmate' + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+							
+						}
+						
+						function paginaUltima(){ 
+				            var currentPage = /*[[${totalPages}]]*/ 0;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/euProgramariNeconfirmate' + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+						}
+				        
+					</script>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:if = "${totalPages > 1}">
+			<div style="display: flex; float:right;">
+				<p>Pagina: [[${currentPage}]]</p>
+			</div>
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages}" th:onclick="paginaPrima();">Prima pagină</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages and currentPage > 1}" th:onclick="paginaInapoi();"><i class="fas fa-arrow-circle-left"></i> Înapoi</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage < totalPages}" th:onclick="paginaInainte()"> Înainte <i class="fas fa-arrow-circle-right"></i> </button>
+
+			<button class="btn btn-secondary" th:onclick="paginaUltima()">Ultima pagină</button>
+		</div>	
+		
+	</div>
+</body>
+
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<title>Bun venit la RoSpringVet</title>
+
+
+</head>
+
+<body>
+
+	<!-- th replace pt navbar -->
+	<div th:replace="fragments/topnavbar :: navbar3">
+		<!-- 2 e navbar cu logout-->
+	</div>
+
+	<hr>
+	<br>
+
+	<h1 th:text=" 'Bine ai venit,  ' + ${nume_angajat}"> </h1>
+
+
+	<div class="container my-2">
+		<h1 th:text=" 'Profil'" />
+		</h1>
+		<hr>
+
+		<div class="col-md-5">
+			<strong>Informatii</strong><br>
+			<div class="table-responsive">
+				<table class="table table-user-information">
+					<tbody>
+							
+							<tr>
+							<td>
+								<strong>
+									Nr telefon
+								</strong>
+							</td>
+							<td class="text-primary" th:text="${angajat.nrtelefon}">
+							</td>
+						</tr>
+							
+						<tr>
+							<td>
+								<strong>
+									Email
+								</strong>
+							</td>
+							<td class="text-primary" th:text="${angajat.email}">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									Functie
+								</strong>
+							</td>
+							<td class="text-primary" th:text="${angajat.functie}">
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<strong>
+									Animale
+								</strong>
+							</td>
+							<td>
+								<a th:href="@{/animale}"
+									class="btn btn-primary">Vezi animalele</a>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<strong>
+									Stapani
+								</strong>
+							</td>
+							<td>
+								<a th:href="@{/stapani}"
+									class="btn btn-primary">Vezi stăpânii</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									Programari
+								</strong>
+							</td>
+							<td>
+								<a th:href="@{/programari}"
+									class="btn btn-primary">Vezi programările</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									Vizite
+								</strong>
+							</td>
+							<td>
+								<a th:href="@{/vizite}"
+									class="btn btn-primary">Vezi vizitele</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<strong>
+									Angajati
+								</strong>
+							</td>
+							<td>
+								<a th:href="@{/angajati}"
+									class="btn btn-primary">Vezi angajații</a>
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</body>
+
+
+</html>

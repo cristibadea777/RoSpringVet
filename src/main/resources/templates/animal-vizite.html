@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>RoSpringVet</title>
+
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+		crossorigin="anonymous">
+	
+	<!-- Pentru glyphicon-uri -->
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+		integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+		crossorigin="anonymous">
+	
+	
+	<!-- JS ca sa mearga modal-ul cu bootstrap 4 -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+	<!-- Ca sa mearga DateTimePicker-ul -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.js" integrity="sha256-2JRzNxMJiS0aHOJjG+liqsEOuBb6++9cY4dSOyiijX4=" crossorigin="anonymous"></script>
+	
+</head>
+
+<body>
+
+	<!-- th replace pt navbar angajati -->
+	<div th:replace="fragments/topnavbar :: navbar3">
+	</div>
+	
+	<div class="container my-2">
+		<br/>
+		<div class="row">
+			<h1 th:text="'Lista cu vizitele pentru animalul: ' + ${animal.nume}"></h1>
+			&nbsp; &nbsp;
+			<img class="img-responsive" src="../static/images/photo.png" 
+				th:src="@{/images/{img}(img=${animal.imagine != null ? animal.imagine : 'animal_default.png'} ) }" 
+				width="1000"; style="height:90px; max-width:90px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+		</div>
+		
+		<br/>
+		
+		<a th:href="@{/profilAnimal/{id}(id=${animal.animalId})}" class="btn btn-info btn-lg mb-3">Detalii animal <i class="fas fa-search"></i></a>
+		&nbsp;
+		<a th:href="@{/profilStapan/{id}(id=${animal.stapanId.stapanId})}" class="btn btn-info btn-lg mb-3">Detalii stăpân  <i class="fas fa-search"></i></a>
+		&nbsp;
+		<!-- Buton vizita noua animal. Butonul va face vizibil modalul de adaugare vizita noua unui animal. -->
+		<button type="button" class="btn btn-primary btn-lg mb-3" data-toggle="modal" data-target=  "#modalVizitaNouaAnimal">Vizită nouă  <i class="fas fa-plus"></i> </button>
+		
+				
+		<table border="1" class = "table table-striped table-responsive-md table-hover">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/veziViziteAnimal/' + ${animal.animalId} + '/page/' +  ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Data și ora</a>
+					</th>
+					<th>
+						 Acțiuni 
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="vizita : ${listaVizite}">
+					<td th:text="${vizita.date}"></td>
+					<td> 
+						<!-- Buton detalii vizita. Butonul va face vizibil modalul de vizualizare detalii a unei vizite. -->
+						<button type="button" class="btn btn-secondary"data-toggle="modal" th:attr="data-target='#modalDetaliiVizita'+*{vizita.vizitaId}">Detalii vizită <i class="fas fa-info-circle"></i> </button>
+					</td>
+					
+					
+						<!-- Modal detalii vizită-->
+						<div class="modal" th:id="*{'modalDetaliiVizita'+{vizita.vizitaId}}"
+							tabindex="-1" role="dialog" aria-labelledby="#modalVizitaNouaAnimal"
+							aria-hidden="true">	
+	
+							<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+								<div class="modal-content" >
+	
+									<div class="modal-header">
+										<h3 class="modal-title w-100 text-center" id="titlu">Detalii vizită</h3>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&cross;</span>
+										</button>
+									</div>
+
+									<div class="modal-body">
+										<div class="row">
+
+											<div  class="col-md-5 col-xs-7">
+												<div class="row">
+													&nbsp;&nbsp;&nbsp;<h5>Stăpânul: &nbsp;</h5>
+													<h5 style="color: cyan;" th:text="${vizita.numestapan}"></h5>
+												</div>
+												<div class="row">
+													&nbsp;&nbsp;&nbsp;<h5>Animalul: &nbsp;</h5>
+													<h5 style="color: cyan;" th:text="${vizita.numeanimal}"></h5>
+												</div>
+											</div>
+											
+											<div  class="col-md-1 col-xs-7">
+											</div>
+											
+											<div  class="col-md-5 col-xs-7">
+												<img class="img-responsive" src="../static/images/photo.png" th:src="@{/images/{img}(img=${vizita.animalId.imagine != null ? vizita.animalId.imagine : 'animal_default.png' } ) }" width="1000"; style="height:77px; max-width:77px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+											</div>
+											
+											<!--VIZITA	-->
+											<div class="col-md-5 col-xs-7">
+												<h4>Motivul vizitei</h4>
+												<strong style="color: cyan;" th:text="*{vizita.motiv}"></strong> 													
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>
+											
+											<div class="col-md-5 col-xs-6">
+												<h4>Data și ora vizitei</h4>
+												<strong style="color: cyan;" th:text="*{vizita.date}"></strong> 
+											</div>
+									
+											<!-- DIAGNOSTIC	-->
+											<div class="col-md-5 col-xs-7">			
+												<h4>Diagnostic</h4>
+												<textarea type="text" style="color: cyan;" th:text="*{vizita.diagnosticId.diagnostic}" class="form-control " rows="5"></textarea>
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>		
+																						
+											<!-- TRATAMENT	-->				
+											<div class="col-md-5 col-xs-7">							
+												<h4>Metodă tratament</h4>
+												<textarea type="text" style="color: cyan;" th:text="*{vizita.tratamentId.metodatratament}" class="form-control " rows="5"></textarea>
+											</div>
+												
+											<!-- ANGAJAT	-->
+											<div class="col-md-5 col-xs-7">
+												<h4>Veterinar</h4>
+												<strong style="color: cyan;" th:text="*{vizita.numeangajat}"></strong>
+											</div>
+												
+											<div class="col-md-1 col-xs-7">
+											</div>
+												
+											<div class="col-md-5 col-xs-7">
+												<h4>Dată începere tratament</h4>
+												<strong style="color: cyan;" th:text="*{vizita.tratamentId.datainceput}"></strong>
+											</div>
+												
+											<div class="col-md-6 col-xs-7">
+											</div>
+																								
+											<div class="col-md-5 col-xs-7">
+												<h4>Dată terminare tratament</h4>
+												<strong style="color: cyan;" th:text="*{vizita.tratamentId.datasfarsit}"></strong>
+											</div>	
+												
+											<div class="col-md-6 col-xs-7">
+												<br>
+											</div>
+																													
+										</div>
+									</div>
+									
+									<!-- modal footer -->
+									<div style="text-align: center" class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Închide</button>
+									</div>
+							  </div>
+						</div>
+					</div>
+					
+					<!-- Script JavaScript pentru a schimba paginile -->
+					
+					<script th:inline="javascript">
+				        //functii navigare catre pagina inainte, inapoi, prima, ultima nr paginii intre 
+				        
+				        var idAnimal = /*[[${animal.animalId}]]*/ 0; 
+				        
+				        function paginaInainte(){ 
+				            var currentPage = /*[[${currentPage+1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				            window.location.href='/veziViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+				        function paginaInapoi(){
+				            var currentPage = /*[[${currentPage-1}]]*/ 0; 
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				             
+				            window.location.href='/veziViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+				        }
+				        
+						function paginaPrima(){ 
+				            var currentPage = 1;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/veziViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+							
+						}
+						
+						function paginaUltima(){ 
+				            var currentPage = /*[[${totalPages}]]*/ 0;
+				            var sortField = /*[[${sortField}]]*/ 0; 
+				            var sortDir = /*[[${sortDir}]]*/ 0; 
+				            
+				           window.location.href='/veziViziteAnimal/' + idAnimal + '/page/' + currentPage + '?sortField=' + sortField + '&sortDir=' + sortDir;
+						}
+				        
+					</script>
+					
+					
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- Modal vizită nouă-->
+		<div class="modal"
+			id="modalVizitaNouaAnimal" tabindex="-1"
+			role="dialog" aria-labelledby="#modalVizitaNouaAnimal"
+			aria-hidden="true">
+
+			<!-- arata modal daca modalul trimis are erori (URL-ul contine parametrul errviz)-->
+			<script th:inline="javascript"
+				th:if="${param.keySet().contains('errviz')}">
+	 								 $("#modalVizitaNouaAnimal").modal("show"); 
+	 								 
+	 								 //AICI LUAM PRIMA VALOARE A PARAMETRULUI idModal PE CARE IL PUNEM IN CONTROLLER 
+	 								 //SI DESCHIDEM MODALUL CU NUMARUL LUAT DIN PARAMETRU...					
+							</script>
+
+
+			<div class="modal-dialog modal-dialog-centered modal-lg"
+				role="document">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h3 class="modal-title w-100 text-center" id="titlu">Adaugă o vizită nouă</h3>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&cross;</span>
+						</button>
+					</div>
+					<!-- form salvare vizita -->
+					<form action="#" th:action="@{/salveazaVizita}"
+						th:object="${vizitawrapper}" method="POST">
+						<div class="modal-body">
+							<div class="row">
+
+								<div class="col-md-5 col-xs-7">
+									<h5 class="modal-title"
+										th:text="'Stăpânul: ' + ${animal.stapanId.firstname} + ' ' + ${animal.stapanId.lastname}"></h5>
+									<h5 class="modal-title" th:text="'Animalul: ' + ${animal.nume}"></h5>
+								</div>
+								<div class="col-md-1 col-xs-7"></div>
+								<div class="col-md-5 col-xs-7">
+									<img class="img-responsive" src="../static/images/photo.png"
+										th:src="@{/images/{img}(img=${animal.imagine != null ? animal.imagine : 'animal_default.png' } ) }"
+										width="1000"
+										; style="height: 77px; max-width: 77px; border-radius: 50%; border: 3px solid #00FFFF;" />
+								</div>
+								<!-- camppuri de input ascunse	-->
+								<!--VIZITA	-->
+								<!-- stapan	-->
+								<input
+									th:value="${animal.stapanId.firstname} + ' ' + ${animal.stapanId.lastname}"
+									name="vizita.numestapan" type="hidden" /> <input
+									th:value="${animal.stapanId.stapanId}" name="vizita.stapanId"
+									type="hidden" />
+								<!-- animal -->
+								<input th:value="${animal.nume}" name="vizita.numeanimal"
+									type="hidden" /> <input th:value="${animal.animalId}"
+									name="vizita.animalId" type="hidden" />
+								<!--ASTEA SUNT NULL, SE SETEAZA IN CONTROLLER VALOAREA DE LA 'VIZITAWRAPPER'	-->
+								<!-- diagnostic -->
+								<input th:value="${id_diagnostic}" name="vizita.diagnosticId"
+									type="hidden" />
+								<!-- tratament -->
+								<input th:value="${id_tratament}" name="vizita.tratamentId"
+									type="hidden" />
+								<!-- DIAGNOSTIC	-->
+								<input th:value="${id_vizita}" name="diagnostic.vizitaId"
+									type="hidden" /> <input th:value="${id_tratament}"
+									name="diagnostic.tratamentId" type="hidden" />
+								<!-- TRATAMENT	-->
+								<input th:value="${id_vizita}" name="tratament.vizitaId" type="hidden" /> 
+								<input th:value="${id_diagnostic}" name="tratament.diagnosticId" type="hidden" />
+								<input th:value="${animal.animalId}" name="tratament.animalId" type="hidden" />
+
+								<!-- ~~~ Pentru redirectionare pagina curenta si camp sortat si numele paginii (veziAnimaleStapan)~~~ -->
+								<!--Nr paginii -->
+								<input type="text" th:value="${currentPage}"
+									class="form-control" name="currentPage" hidden="true">
+								<!--Numele campului dupa care se face sortarea -->
+								<input type="text" th:value="${sortField}" class="form-control"
+									name="sortField" hidden="true">
+								<!--Directia sortarii-->
+								<input type="text" th:value="${sortDir}" class="form-control"
+									name="sortDir" hidden="true">
+								<!--Numele vederii-->
+								<input type="text" th:value="${numeView}" class="form-control"
+									name="numeView" hidden="true">
+
+								<!-- Mesaje eroare -->
+								<div class="col-md-12 col-xs-7">
+									<!-- mesaj eroare angajat null -->
+									<div th:if="${param.errangajat}">
+										<div class="alert alert-danger" style="text-align: center;">
+											<h4 class="text-danger ">
+												Selectează un angajat !
+												<h4>
+										</div>
+									</div>
+
+									<!-- mesaj eroare data vizita null -->
+									<div th:if="${param.errvizdata}">
+										<div class="alert alert-danger" style="text-align: center;">
+											<h4 class="text-danger ">
+												Selectează data vizitei !
+												<h4>
+										</div>
+									</div>
+
+									<!-- mesaj eroare diagnostic null -->
+									<div th:if="${param.errdiagnostic}">
+										<div class="alert alert-danger" style="text-align: center;">
+											<h4 class="text-danger ">
+												Introdu un diagnostic !
+												<h4>
+										</div>
+									</div>
+
+									<!-- mesaj eroare tratament null -->
+									<div th:if="${param.errtratinceput}">
+										<div class="alert alert-danger" style="text-align: center;">
+											<h4 class="text-danger ">
+												Selectează o dată de început pentru tratament !
+												<h4>
+										</div>
+									</div>
+
+									<!-- mesaj eroare data incepere tratament null -->
+									<div th:if="${param.errtratament}">
+										<div class="alert alert-danger" style="text-align: center;">
+											<h4 class="text-danger ">
+												Introdu un tratament !
+												<h4>
+										</div>
+										
+									</div>
+								</div>
+
+								<!--VIZITA	-->
+								<div class="col-md-5 col-xs-7">
+									<h4>Motivul vizitei</h4>
+									<input type="text" th:field="*{vizita.motiv}"
+										class="form-control ">
+								</div>
+
+								<div class="col-md-1 col-xs-7"></div>
+								<!-- Intai setam un ID distinctiv pentru fiecare  datetimepicker (data vizita, data tratament incepere si terminare), adaugand la ID-ul datetimepicker-ului, ID-ul animalului selectat-->
+								<!-- Apoi pentru fiecare modal al animalelor din tabel se va adauga datetimepicker-ul cu o functie JS. -->
+								<div class="col-md-5 col-xs-6">
+									<h4>Data și ora vizitei</h4>
+									<div class="form-group">
+										<div class="input-group date"
+											th:id="'datetimepicker' + ${animal.animalId}"
+											data-target-input="nearest">
+											<input type="text" th:field="*{vizita.date}"
+												class="form-control datetimepicker-input"
+												th:data-target="'#datetimepicker'+ ${animal.animalId}" />
+											<div class="input-group-append"
+												th:data-target="'#datetimepicker'+ ${animal.animalId}"
+												data-toggle="datetimepicker">
+												<div class="input-group-text">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+										$(function () {
+											var id = /*[[${animal.animalId}]]*/ 0; 
+											$('#datetimepicker' + id).datetimepicker();
+										});
+									</script>
+								</div>
+
+								<!-- DIAGNOSTIC	-->
+								<div class="col-md-5 col-xs-7">
+									<h4>Diagnostic</h4>
+									<textarea type="text" th:field="*{diagnostic.diagnostic}"
+										class="form-control " rows="5"></textarea>
+								</div>
+
+								<div class="col-md-1 col-xs-7"></div>
+
+								<!-- TRATAMENT	-->
+								<div class="col-md-5 col-xs-7">
+									<h4>Metodă tratament</h4>
+									<textarea type="text" th:field="*{tratament.metodatratament}"
+										class="form-control" rows="5"></textarea>
+								</div>
+
+								<!-- ANGAJAT	-->
+								<div class="col-md-5 col-xs-7">
+									<div class="form-group blu-margin">
+										<h4>Selectează veterinar</h4>
+										<select class="form-control" th:field="${angajat.angajatId}"
+											id="dropAngajat">
+											<option th:value="1">Selectează veterinar</option>
+											<option th:each="angajat : ${lista_angajati}"
+												th:value="${angajat.angajatId}"
+												th:text="${angajat.lastname} + ' ' + ${angajat.firstname}"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-1 col-xs-7"></div>
+
+								<div class="col-md-5 col-xs-7">
+									<h4>Dată începere tratament</h4>
+									<div class="form-group">
+										<div class="input-group date"
+											th:id="'datetimepickerIncepereTratament' + ${animal.animalId}"
+											data-target-input="nearest">
+											<input type="text" th:field="*{tratament.datainceput}"
+												class="form-control datetimepicker-input"
+												th:data-target="'#datetimepickerIncepereTratament'+ ${animal.animalId}" />
+											<div class="input-group-append"
+												th:data-target="'#datetimepickerIncepereTratament'+ ${animal.animalId}"
+												data-toggle="datetimepicker">
+												<div class="input-group-text">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+														$(function () {
+															var id = /*[[${animal.animalId}]]*/ 0; 
+															$('#datetimepickerIncepereTratament' + id).datetimepicker();
+														});
+													</script>
+								</div>
+
+								<div class="col-md-6 col-xs-7"></div>
+
+								<div class="col-md-5 col-xs-7">
+									<h4>Dată terminare tratament</h4>
+									<div class="form-group">
+										<div class="input-group date"
+											th:id="'datetimepickerTerminareTratament' + ${animal.animalId}"
+											data-target-input="nearest">
+											<input type="text" th:field="*{tratament.datasfarsit}"
+												class="form-control datetimepicker-input"
+												th:data-target="'#datetimepickerTerminareTratament'+ ${animal.animalId}" />
+											<div class="input-group-append"
+												th:data-target="'#datetimepickerTerminareTratament'+ ${animal.animalId}"
+												data-toggle="datetimepicker">
+												<div class="input-group-text">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+									<script type="text/javascript">
+														$(function () {
+															var id = /*[[${animal.animalId}]]*/ 0; 
+															$('#datetimepickerTerminareTratament' + id).datetimepicker();
+														});
+													</script>
+								</div>
+
+								<div class="col-md-6 col-xs-7">
+									<br>
+								</div>
+
+							</div>
+						</div>
+						<!-- modal footer -->
+						<div style="text-align: center" class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Închide</button>
+							<button type="submit" class="btn btn-info col-3 ml-auto">Salvează
+								vizita</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div th:if = "${totalPages > 1}">
+			<div style="display: flex; float:right;">
+				<p>Pagina: [[${currentPage}]]</p>
+			</div>
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages}" th:onclick="paginaPrima();">Prima pagină</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage <= totalPages and currentPage > 1}" th:onclick="paginaInapoi();"><i class="fas fa-arrow-circle-left"></i> Înapoi</button>
+
+			<button class="btn btn-secondary" th:if="${currentPage < totalPages}" th:onclick="paginaInainte()"> Înainte <i class="fas fa-arrow-circle-right"></i> </button>
+
+			<button class="btn btn-secondary" th:onclick="paginaUltima()">Ultima pagină</button>
+		</div>		
+		
+	</div>
+</body>
+
+
+</html>

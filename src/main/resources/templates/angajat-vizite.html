@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>RoSpringVet</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+	
+</head>
+
+<body>
+
+	<div class="container my-2">
+	<h1 th:text="'Lista cu vizitele pentru angajatul: ' + ${angajat.lastname} + ' ' +  ${angajat.firstname}"> </h1>
+		
+		<table border="1" class = "table table-striped table-responsive-md table-hover">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${currentPage} + '?sortField=numestapan&sortDir=' + ${reverseSortDir}}">Nume Stapan</a>
+					</th>
+					<th>
+						<a th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${currentPage} + '?sortField=numeangajat&sortDir=' + ${reverseSortDir}}">Nume Angajat</a>
+					</th>
+					<th>
+						<a th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${currentPage} + '?sortField=date&sortDir=' + ${reverseSortDir}}">Data si ora</a>
+					</th>
+					<th>
+						 Actiuni 
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="vizita : ${listaVizite}">
+					<td th:text="${vizita.numestapan}"></td>
+					<td th:text="${vizita.numeangajat}"></td>
+					<td th:text="${vizita.date}"></td>
+					<td> 
+						<a th:href="@{/veziDetaliiVizita/{id}(id=${vizita.vizitaId})}" class="btn btn-primary">Vezi detalii</a>
+						<a th:href="@{/veziAngajatVizita/{id}(id=${vizita.vizitaId})}" class="btn btn-primary">Vezi angajat</a>
+						<a th:href="@{/veziStapanVizita/{id}(id=${vizita.vizitaId})}" class="btn btn-primary">Vezi stapan</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+				
+				<div class = "col-sm-1">
+					<a th:if="${currentPage <= totalPages}" th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  1 + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+					<span th:unless="${currentPage <= totalPages}">First</span>
+				</div>
+				
+				<div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(currentPage, currentPage + 1)}" th:unless="${currentPage == totalPages}">
+						<a th:if="${currentPage != i}" th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+				</div>
+				
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				
+				<div class = "col-sm-1">
+					<a th:if="${currentPage <= totalPages and currentPage > 1}" th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' +  ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+					<span th:unless="${currentPage <= totalPages}">Previous</span> 
+				</div>
+				&nbsp; &nbsp;&nbsp; &nbsp;
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/veziViziteAngajat/' + ${angajat.angajatId} + '/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+   				 
+			</div>
+		</div>
+		
+	</div>
+</body>
+
+
+</html>

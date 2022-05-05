@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>RoSpringVet</title>
+
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+		crossorigin="anonymous">
+	
+	<!-- Pentru glyphicon-uri -->
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+		integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+		crossorigin="anonymous">
+
+</head>
+
+<body>
+
+	<!-- th replace pt navbar angajati -->
+	<div th:replace="fragments/topnavbar :: navbar3">
+	</div>
+	
+	<br>
+	
+	<div class="container my-2">
+		<h1 th:text=" 'Profilul animalului  ' + ${animal.nume}"></h1>
+
+		<hr />
+
+		<div class="form-group row">
+			<div class="col-md-5 col-xs-6">
+				<strong>Informații</strong><br>
+				<div class="table-responsive">
+					<table class="table table-user-information">
+						<tbody>
+							<tr>
+								<td><strong> Specie </strong></td>
+								<td class="text-primary" th:text="${animal.specie}"></td>
+							</tr>
+							<tr>
+								<td><strong> Rasă </strong></td>
+								<td class="text-primary" th:text="${animal.rasa}"></td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Stăpân</strong>
+								</td>
+								<td>
+									<a th:href="@{/profilStapan/{id}(id=${animal.stapanId.stapanId})}" th:text="|${animal.stapanId.firstname}  ${animal.stapanId.lastname}|"class="btn btn-primary"> </a>
+								</td>
+							</tr>	
+							<tr>
+								<td>
+									<strong th:text="| Număr vizite: ${animal.vizite.size()}|"> </strong>
+								</td>
+								<td>
+									<a th:href="@{/viziteAnimal/{id}(id=${animal.animalId})}" class="btn btn-primary">Vezi vizite</a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong th:text="| Număr programări (confirmate): ${numarProgConfirmate}|"> </strong>
+								</td>
+								<td>
+									<a th:href="@{/programariAnimal/{id}(id=${animal.animalId})}" class="btn btn-primary">Vezi programări</a>
+								</td>
+							</tr>		
+							<tr>
+								<td>
+									<strong th:text="|Număr tratamente active: ${numarTratamente}|"></strong>
+								</td>
+								<td>
+									<a th:href="@{/tratamenteActive/{id}(id=${animal.animalId})}" class="btn btn-primary"> Vezi tratamente</a>
+								</td>
+							</tr>				
+						</tbody>
+					</table>
+				</div>				 
+
+			</div>
+
+			<div class="col-md-5 col-xs-6">
+				
+				
+				<div class="row">
+					<div class="col-md-5 col-xs-6">
+						<img class="img-responsive" src="../static/images/photo.png" th:src="@{/images/{img}(img=${animal.imagine != null ? animal.imagine : 'animal_default.png' } ) }" style="height:250px; max-width:300px;  border-radius: 50%; border: 3px solid #00FFFF;"/>
+					</div>
+				</div>
+
+				<br>
+				
+				<form action="/incarcareImagine" method="POST"
+					enctype="multipart/form-data">
+					<input type="hidden" th:field="${animal.animalId}" /> 
+					<input type="file" name="imageFile" accept="image/png, image/jpg">
+					<input type="submit" value="Încarcă">
+				</form>
+
+				<br>
+
+				<!-- succes poza incarcata -->
+				<div  th:if="${param.succes}">
+					<div class="alert alert-success">
+						<p class="text-danger">Poza a fost încărcată cu succes !</p>
+					</div>
+				</div>
+
+				<!-- eroare poza neincarcata -->
+				<div  th:if="${param.errpoza}">
+					<div class="alert alert-danger">
+						<p class="text-danger">Nu am putut încărca poza. Fișiere permise: .jpg și .png</p>
+					</div>
+				</div>
+
+			</div>
+
+
+
+		</div>
+</body>
+
+
+</html>

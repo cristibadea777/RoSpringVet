@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+
+
+	<!-- th replace pt head -->
+	<div th:replace="fragments/headbootstrap">
+	</div>
+
+</head>
+
+<body>
+	<!-- th replace pt navbar -->
+	<div th:replace="fragments/topnavbar :: navbar1">
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-3">
+				<br>
+				<h1><strong>Bine ai venit !</strong></h1>
+				<br>
+				<div>
+					<h3>Pentru a putea folosi aplicația RoSpringVet, autentifică-te sau creează un utilizator nou.</h3>
+				</div>
+				<br>
+			</div>
+		</div>
+	</div>
+			
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form th:action="@{/login}" method="post">
+					<!-- mesaj eroare -->
+					<div th:if="${param.error}">
+						<div class="alert alert-danger"><h5 class="text-danger ">Email sau parolă incorectă !</h5></div>
+					</div>
+					<!-- mesaj logout  -->
+					<div th:if="${param.logout}">
+						<div class="alert alert-info"><h5>Te-ai deconectat de la aplicatie !</h5> </div>
+					</div>
+					<div class="form-group">
+						<label for="username"> Email </label> :
+						<input type="text" class="form-control" id="username" name="username"
+							autofocus="autofocus">
+					</div>
+
+					<div class="form-group">
+						<label for="password">Parola</label>: <input type="password" id="password" name="password"
+							class="form-control" />
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-4 col-sm-offset-3">
+								<input type="submit" name="login-submit" id="login-submit"
+									class="form-control btn btn-primary" value="Autentificare" />
+							</div>
+							<div class="col-sm-4 col-sm-offset-3">
+								<a th:href="@{/registration}" class="form-control btn btn-secondary">Înregistrare</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			
+			<div class="col-md-6 col-md-offset-3">
+				<div class="row">
+					<div class="col-md-12">
+						<img class="img-responsive" src="../static/images/photo.png" style="height:250px; max-width:777px;" th:src="@{images/angora2.png}" />
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><entities>
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Angajat</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>750</entity-X-Coordinate>
+		<entity-Y-Coordinate>280</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Animal</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>239</entity-X-Coordinate>
+		<entity-Y-Coordinate>43</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Data</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>480</entity-X-Coordinate>
+		<entity-Y-Coordinate>150</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Diagnostic</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>803</entity-X-Coordinate>
+		<entity-Y-Coordinate>-62</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Persoana</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>480</entity-X-Coordinate>
+		<entity-Y-Coordinate>280</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Programare</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>-73</entity-X-Coordinate>
+		<entity-Y-Coordinate>222</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Role</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>68</entity-X-Coordinate>
+		<entity-Y-Coordinate>80</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Stapan</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>239</entity-X-Coordinate>
+		<entity-Y-Coordinate>345</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Tratament</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>310</entity-X-Coordinate>
+		<entity-Y-Coordinate>-62</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.User</entity-name>
+		<entity-width>120</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>68</entity-X-Coordinate>
+		<entity-Y-Coordinate>-35</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+
+	<entity>
+		<entity-name>eu.badeacristian.RoSpringVet.models.Vizita</entity-name>
+		<entity-width>195</entity-width>
+		<entity-height>30</entity-height>
+		<entity-X-Coordinate>607</entity-X-Coordinate>
+		<entity-Y-Coordinate>43</entity-Y-Coordinate>
+		<primary-collapsed>false</primary-collapsed>
+		<relation-collapsed>false</relation-collapsed>
+		<basic-collapsed>false</basic-collapsed>
+	</entity>
+</entities>
